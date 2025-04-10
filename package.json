@@ -1,0 +1,17 @@
+{
+  "name": "baseline-browser-mapping-web-ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "baseline-browser-mapping": "^2.1.0",
+    "express": "^4.21.2"
+  }
+}
