@@ -35,7 +35,7 @@ const currentWidelyAvailable = {
 }
 
 writeFileSync(
-  './public/data/wa/versions.json',
+  './data/wa/versions.json',
   JSON.stringify(currentWidelyAvailable)
 );
 
@@ -51,7 +51,7 @@ yearArray.forEach((year) => {
 });
 
 writeFileSync(
-  './public/data/years/versions.json',
+  './data/years/versions.json',
   JSON.stringify(yearMinimumVersions)
 );
 
@@ -71,5 +71,5 @@ for (let i = startDate; i <= endDate;) {
 }
 
 Object.entries(waOnDates).forEach(([date, versions]) => {
-  writeFileSync(`./public/data/waOnDate/${date}.json`, JSON.stringify(versions));
+  writeFileSync(`./data/waOnDate/${date}.json`, JSON.stringify(versions));
 });
