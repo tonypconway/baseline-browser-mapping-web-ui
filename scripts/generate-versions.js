@@ -18,8 +18,10 @@ const nameMapping = {
   uc_android: 'ua'
 }
 
+const coreBrowserShortNames = ['c','ca','e','f','fa','s','si']
+
 const flattenObject = (versionsArray) => {
-  return versionsArray.map(version =>
+  const versionsToReturn = versionsArray.map(version =>
     [
       nameMapping[version.browser],
       version.version,
@@ -27,15 +29,18 @@ const flattenObject = (versionsArray) => {
       version.engine_version ?? null
     ]
   );
+  return versionsToReturn.length === 7  
+  ? versionsToReturn
+  : versionsToReturn.slice(7)
 }
 
 const currentWidelyAvailable = {
   c: flattenObject(getCompatibleVersions()),
-  wd: flattenObject(getCompatibleVersions({ includeDownstreamBrowsers: true }))
+  d: flattenObject(getCompatibleVersions({ includeDownstreamBrowsers: true }))
 }
 
 writeFileSync(
-  './data/wa/versions.json',
+  './public/data/wa/versions.json',
   JSON.stringify(currentWidelyAvailable)
 );
 
@@ -51,7 +56,7 @@ yearArray.forEach((year) => {
 });
 
 writeFileSync(
-  './data/years/versions.json',
+  './public/data/years/versions.json',
   JSON.stringify(yearMinimumVersions)
 );
 
@@ -65,11 +70,11 @@ for (let i = startDate; i <= endDate;) {
   let dateString = i.toISOString().slice(0, 10);
   waOnDates[dateString] = {
     c: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString })),
-    wd: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString, includeDownstreamBrowsers: true }))
+    d: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString, includeDownstreamBrowsers: true }))
   }
   i.setDate(i.getDate() + 1)
 }
 
 Object.entries(waOnDates).forEach(([date, versions]) => {
-  writeFileSync(`./data/waOnDate/${date}.json`, JSON.stringify(versions));
+  writeFileSync(`./public/data/waOnDate/${date}.json`, JSON.stringify(versions));
 });
