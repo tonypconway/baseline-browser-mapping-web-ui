@@ -20,12 +20,17 @@
         url += `waOnDate/${target}.json`
       } else if (!isNaN(target) && (target >=2016 && target <= currentYear-1 )) {
         url += `years/${target}.json`
+      } else {
+        console.error(new Error(`There's something very wrong with selected target: ${target}`))
+        return false
       }
 
       return url
     }
 
-    window.fetch(new Request(getFileUrl('2021-01-01')))
+    let requestUrl = getFileUrl('2025-04-11');
+    if (requestUrl) {
+      window.fetch(new Request(requestUrl))
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -33,13 +38,14 @@
         return response.json()
       })
       .then(versionsObject => {
-        // document.getElementById('coreBrowsers').innerText = JSON.stringify(versionsObject.c, null, 2);
-        // document.getElementById('downstreamBrowsers').innerText = JSON.stringify(versionsObject.d, null, 2);
         document.getElementById('coreBrowsers').innerText = JSON.stringify([
-          ...versionsObject.c,
-          ...versionsObject.d
+          versionsObject.c
+        ], null, 2);
+        document.getElementById('downstreamBrowsers').innerText = JSON.stringify([
+          versionsObject.d
         ], null, 2);
       })
+    }
 
 
   </script>
