@@ -2,14 +2,47 @@
 
 <head>
   <title>This is a page!</title>
-  <script>
-    
-  </script>
 </head>
 
 <body>
-  <h1>Baseline minimum browser versions</h1>
-  <div id="output"></div>
+  <h1>Baseline minimum browser versions garp</h1>
+  <pre id="coreBrowsers"></pre>
+  <pre id="downstreamBrowsers"></pre>
+  <script>
+    const currentYear = new Date().getFullYear();
+    const getFileUrl = (target) => {
+      let url = './data/'
+      if (target == 'wa') {
+        url += 'wa/versions.json'
+      } else if (new RegExp(
+        /^20(\d{2})-(0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2]\d|3[0-1])$/,
+      ).test(target)) {
+        url += `waOnDate/${target}.json`
+      } else if (!isNaN(target) && (target >=2016 && target <= currentYear-1 )) {
+        url += `years/${target}.json`
+      }
+
+      return url
+    }
+
+    window.fetch(new Request(getFileUrl('2021-01-01')))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json()
+      })
+      .then(versionsObject => {
+        // document.getElementById('coreBrowsers').innerText = JSON.stringify(versionsObject.c, null, 2);
+        // document.getElementById('downstreamBrowsers').innerText = JSON.stringify(versionsObject.d, null, 2);
+        document.getElementById('coreBrowsers').innerText = JSON.stringify([
+          ...versionsObject.c,
+          ...versionsObject.d
+        ], null, 2);
+      })
+
+
+  </script>
 </body>
 
 </html>

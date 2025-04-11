@@ -34,47 +34,38 @@ const flattenObject = (versionsArray) => {
   : versionsToReturn.slice(7)
 }
 
-const currentWidelyAvailable = {
-  c: flattenObject(getCompatibleVersions()),
-  d: flattenObject(getCompatibleVersions({ includeDownstreamBrowsers: true }))
-}
-
+// write widely available
 writeFileSync(
   './public/data/wa/versions.json',
-  JSON.stringify(currentWidelyAvailable)
+  JSON.stringify({
+    c: flattenObject(getCompatibleVersions()),
+    d: flattenObject(getCompatibleVersions({ includeDownstreamBrowsers: true }))
+  })
 );
 
+// write year files
 let nextYear = new Date().getFullYear() + 1;
-
 const yearArray = [...Array(nextYear).keys()].slice(2016);
-
-const yearMinimumVersions = {};
 yearArray.forEach((year) => {
-  yearMinimumVersions[year] = {};
-  yearMinimumVersions[year].c = flattenObject(getCompatibleVersions({ targetYear: year }));
-  yearMinimumVersions[year].wd = flattenObject(getCompatibleVersions({ targetYear: year, includeDownstreamBrowsers: true }));
+  writeFileSync(
+    `./public/data/years/${year}.json`,
+    JSON.stringify({
+      c: flattenObject(getCompatibleVersions({ targetYear: year })),
+      d: flattenObject(getCompatibleVersions({ targetYear: year, includeDownstreamBrowsers: true }))
+    })
+  );
 });
 
-writeFileSync(
-  './public/data/years/versions.json',
-  JSON.stringify(yearMinimumVersions)
-);
-
-const waOnDates = {};
-
+// write waOnDate files
 const startDate = new Date('2019-06-01');
 const endDate = new Date();
 endDate.setMonth(endDate.getMonth() + 30)
 
 for (let i = startDate; i <= endDate;) {
   let dateString = i.toISOString().slice(0, 10);
-  waOnDates[dateString] = {
+  writeFileSync(`./public/data/waOnDate/${dateString}.json`, JSON.stringify({
     c: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString })),
     d: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString, includeDownstreamBrowsers: true }))
-  }
+  }));
   i.setDate(i.getDate() + 1)
 }
-
-Object.entries(waOnDates).forEach(([date, versions]) => {
-  writeFileSync(`./public/data/waOnDate/${date}.json`, JSON.stringify(versions));
-});
