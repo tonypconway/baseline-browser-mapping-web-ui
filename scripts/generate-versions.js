@@ -18,7 +18,7 @@ const nameMapping = {
   uc_android: 'ua'
 }
 
-const coreBrowserShortNames = ['c','ca','e','f','fa','s','si']
+const coreBrowserShortNames = ['c', 'ca', 'e', 'f', 'fa', 's', 'si']
 
 const flattenObject = (versionsArray) => {
   const versionsToReturn = versionsArray.map(version =>
@@ -29,14 +29,14 @@ const flattenObject = (versionsArray) => {
       version.engine_version ?? null
     ]
   );
-  return versionsToReturn.length === 7  
-  ? versionsToReturn
-  : versionsToReturn.slice(7)
+  return versionsToReturn.length === 7
+    ? versionsToReturn
+    : versionsToReturn.slice(7)
 }
 
 // write widely available
 writeFileSync(
-  './public/data/wa/versions.json',
+  './src/data/wa/versions.json',
   JSON.stringify({
     c: flattenObject(getCompatibleVersions()),
     d: flattenObject(getCompatibleVersions({ includeDownstreamBrowsers: true }))
@@ -48,7 +48,7 @@ let nextYear = new Date().getFullYear() + 1;
 const yearArray = [...Array(nextYear).keys()].slice(2016);
 yearArray.forEach((year) => {
   writeFileSync(
-    `./public/data/years/${year}.json`,
+    `./src/data/years/${year}.json`,
     JSON.stringify({
       c: flattenObject(getCompatibleVersions({ targetYear: year })),
       d: flattenObject(getCompatibleVersions({ targetYear: year, includeDownstreamBrowsers: true }))
@@ -63,7 +63,7 @@ endDate.setMonth(endDate.getMonth() + 30)
 
 for (let i = startDate; i <= endDate;) {
   let dateString = i.toISOString().slice(0, 10);
-  writeFileSync(`./public/data/waOnDate/${dateString}.json`, JSON.stringify({
+  writeFileSync(`./src/data/waOnDate/${dateString}.json`, JSON.stringify({
     c: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString })),
     d: flattenObject(getCompatibleVersions({ widelyAvailableOnDate: dateString, includeDownstreamBrowsers: true }))
   }));
