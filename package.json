@@ -4,8 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "web-dev-server --open src/ --node-resolve",
+    "start:watch": "web-dev-server --open src/ --node-resolve --watch",
+    "test": "web-test-runner test/**/*.test.ts --node-resolve",
+    "test:watch": "web-test-runner test/**/*.test.ts --node-resolve --watch",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
     "generate-versions": "node ./scripts/generate-versions.js"
   },
   "author": "",
@@ -13,6 +17,16 @@
   "description": "",
   "dependencies": {
     "baseline-browser-mapping": "^2.1.0",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "2.5.33",
+    "@types/node": "14.18.63",
+    "@web/dev-server": "0.4.6",
+    "@web/dev-server-esbuild": "0.4.4",
+    "@web/test-runner": "0.16.0",
+    "tslib": "2.6.3",
+    "typescript": "5.4.5"
   }
 }
