@@ -23,7 +23,9 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install environment
-        run: npm ci
+        run: |
+          npm ci
+          npm i baseline-browser-mapping@latest
 
       - name: Run generate-versions
         id: generate-versions-script
