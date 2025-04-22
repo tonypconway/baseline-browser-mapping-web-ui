@@ -1,4 +1,4 @@
-name: Refresh downstream-browsers.json
+name: Regenerate browser versions
 
 on:
   schedule:
