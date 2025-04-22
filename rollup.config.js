@@ -6,6 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 export default {
   input: 'src/index.ts',
   output: {
+    name: 'index',
     dir: 'dist',
     format: 'iife'
   },
