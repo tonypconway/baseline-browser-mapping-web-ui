@@ -8,7 +8,7 @@
     "start:watch": "web-dev-server --open src/ --node-resolve --watch",
     "test": "web-test-runner test/**/*.test.ts --node-resolve",
     "test:watch": "web-test-runner test/**/*.test.ts --node-resolve --watch",
-    "build": "node ./scripts/generate-versions.js; rollup -c",
+    "build": "rollup -c",
     "build:watch": "node ./scripts/generate-versions.js; rollup -c -w",
     "serve-build": "node ./scripts/generate-versions.js; rollup -c; node index.js",
     "generate-versions": "node ./scripts/generate-versions.js"
